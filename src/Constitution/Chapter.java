@@ -26,6 +26,13 @@ public class Chapter {
     public void setLastArt(int lastArt) {
         this.lastArt = lastArt;
     }
+    
+    public String getCaption(){
+        return caption;
+    }
 
+    public void setCaption(){
+        this.caption = caption;
+    }
 
 }
