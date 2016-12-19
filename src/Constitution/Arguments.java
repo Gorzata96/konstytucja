@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.LinkedList;
 
 /**
- * Created by Gosia on 2016-12-15.
+ * Created by Gosia on 2016-12-11.
  */
 public class Arguments {
     private String FilePath;
@@ -21,13 +21,15 @@ public class Arguments {
         }
 
         FilePath = args[0];
-        for(int i=0; i<args.length; i++) {
+        for(int i=1; i<args.length; i++) {
             if(Character.isDigit(args[i].charAt(0))){
                 if(args[i].contains(":")) {
                     String[] g = args[i].split(":");
                     arguments.add(new SingleArg(Integer.parseInt(g[0]), Integer.parseInt(g[1]), 'r'));
                 }
-                else arguments.add(new SingleArg(Integer.parseInt(args[0]), 'a'));
+                else {
+                    arguments.add(new SingleArg(Integer.parseInt(args[1]), 'a'));
+                }
             }
             else if (Character.isLetter(args[i].charAt(0))) {
                 arguments.add(new SingleArg(roman(args[i]), 'c'));
@@ -37,7 +39,10 @@ public class Arguments {
                 System.exit(1);
             }
         }
+
     }
+
+
 
     public List<SingleArg> getArg() {
         return arguments;
