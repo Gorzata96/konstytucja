@@ -6,6 +6,7 @@ package Constitution;
 public class Chapter {
     private int firstArt;
     private int lastArt;
+    private String caption;
 
     public int getFirstArt() {
         return firstArt;
@@ -26,13 +27,14 @@ public class Chapter {
     public void setLastArt(int lastArt) {
         this.lastArt = lastArt;
     }
-    
+
     public String getCaption(){
         return caption;
     }
 
-    public void setCaption(){
+    public void setCaption(String caption){
         this.caption = caption;
     }
+
 
 }
