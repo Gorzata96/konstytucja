@@ -6,37 +6,36 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-/**
- * Created by Gosia on 2016-12-05.
- */
 
+
+
+/**
+ * Created by Gosia on 2016-12-11.
+ */
 public class Constitution {
     private LinkedList<Article> articles = new LinkedList<>();
     private LinkedList<Chapter> chapters = new LinkedList<>();
     String Line;
 
-    @Override
     public void readConstitution(String source) {
         Parser parser = new Parser();
         parser.readFile(source);
     }
 
-    @Override
     public String returnArt(int n) {
         if (n == 0)
             return articles.get(n).getArtText() + "\n";
         else
-            return "Art." + n + "\n" + articles.get(n).getArtText() + "\n";
+            return "Art." + String.valueOf(n)   + "\n" + articles.get(n).getArtText() + "\n";
     }
 
-    @Override
     public String returnSectionTitle(int n) {
         return articles.get(n).getCaption();
     }
 
-    @Override
+
     public String returnChapter(int n) {
-        String res = "Rozdział " + n + "\n" + chapters.get(n).getCaption() + "\n";
+        String res = "Rozdzial " + String.valueOf(n)  + "\n" + chapters.get(n).getCaption() + "\n";
         for(int i = chapters.get(n).getFirstArt(); i<=chapters.get(n).getLastArt(); i++)
             res += returnSectionTitle(i)+returnArt(i);
         return res;
@@ -45,7 +44,7 @@ public class Constitution {
     public class Parser {
         private List<String> lines = new LinkedList<>();
 
-        @Override
+
         public void readFile(String source) {
             FileReader fr = null;
             String line = "";
@@ -61,18 +60,19 @@ public class Constitution {
             BufferedReader bfr = new BufferedReader(fr);
 
             try {
-                private List<String> lines = new LinkedList<>();
+                List<String> lines = new LinkedList<>();
 
                 while((Line = bfr.readLine())!=null){
                     if(!Line.equals("©Kancelaria Sejmu") && !Line.equals("2009-11-16") && Line.length()>1)
                         lines.add(Line);
-                    int preambleLines = preambleHandling();
-                    contentHandling(preambleLines);
                 }
 
+                int preambleLines = preambleHandling();
+                contentHandling(preambleLines);
             } catch (IOException e) {
                 System.err.print("Error reading file!");
                 System.exit(2);
+            }
         }
 
 
@@ -96,7 +96,7 @@ public class Constitution {
             String sectionTitle = "";
             for(int i = startLine; i<lines.size(); i++) {
                 currentLine = lines.get(i);
-                if(currentLine.startsWith("Rozdział")) {
+                if(currentLine.startsWith("Rozdzia")) {
                     chapters.getLast().setLastArt(articles.getLast().getArtNr());
                     chapters.add(new Chapter(articles.getLast().getArtNr()+1));
                 }
@@ -105,10 +105,10 @@ public class Constitution {
                     sectionTitle="";
                 }
                 else if(currentLine.equals(currentLine.toUpperCase())){
-                    if(lines.get(i-1).startsWith("Rozdział"))
+                    if(lines.get(i-1).startsWith("Rozdzia"))
                         chapters.getLast().setCaption(currentLine);
                     else
-                        sectionTitle = currentLine+"\n";
+                        sectionTitle = currentLine + "\n";
                 }
                 else {
                     currentLine = currentLine.trim();
@@ -133,5 +133,6 @@ public class Constitution {
             return line;
         }
     }
-}
 
+
+}
