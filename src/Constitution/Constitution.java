@@ -25,8 +25,7 @@ public class Constitution {
     public String returnArt(int n) {
         if (n == 0)
             return articles.get(n).getArtText() + "\n";
-        else
-            return "Art." + String.valueOf(n)   + "\n" + articles.get(n).getArtText() + "\n";
+        else return ("Art." + String.valueOf(n) + "\n" + articles.get(n).getArtText() + "\n");
     }
 
     public String returnSectionTitle(int n) {
@@ -44,7 +43,6 @@ public class Constitution {
     public class Parser {
         private List<String> lines = new LinkedList<>();
 
-
         public void readFile(String source) {
             FileReader fr = null;
             String line = "";
@@ -60,8 +58,6 @@ public class Constitution {
             BufferedReader bfr = new BufferedReader(fr);
 
             try {
-                List<String> lines = new LinkedList<>();
-
                 while((Line = bfr.readLine())!=null){
                     if(!Line.equals("©Kancelaria Sejmu") && !Line.equals("2009-11-16") && Line.length()>1)
                         lines.add(Line);
