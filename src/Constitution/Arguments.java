@@ -1,55 +1,69 @@
-package Constitution;
+package constitution;
 
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Gosia on 2016-12-11.
  */
 public class Arguments {
-    private String FilePath;
+    private String filePath;
     private List<SingleArg> arguments = new LinkedList<>();
+    private Type option;
 
     public Arguments(String[] args){
-        if(args.length<2) {
-            System.err.println("Za mało argumentów");
+        if(args.length < 2) {
+            System.err.println("Za mało argumentów.");
             System.exit(1);
         }
         if (args.length > 4) {
-            System.err.println("Za dużo argumentów");
+            System.err.println("Za dużo argumentów.");
             System.exit(1);
         }
 
-        FilePath = args[0];
+        filePath = args[0];
+
         for(int i=1; i<args.length; i++) {
             if(Character.isDigit(args[i].charAt(0))){
                 if(args[i].contains(":")) {
                     String[] g = args[i].split(":");
-                    arguments.add(new SingleArg(Integer.parseInt(g[0]), Integer.parseInt(g[1]), 'r'));
+                    if(Integer.parseInt(g[0]) > 243 || Integer.parseInt(g[1]) > 243) {
+                        System.err.println("Za duży numer artykułu.");
+                        System.exit(1);
+                    }
+                    if(Integer.parseInt(g[1]) < Integer.parseInt(g[0])) {
+                        System.err.println("Numer pierwszego artykułu musi być mniejszy od numeru drugiego.");
+                        System.exit(1);
+                    }
+                    option = Type.range;
+                    arguments.add(new SingleArg(Integer.parseInt(g[0]), Integer.parseInt(g[1]), option));
                 }
                 else {
-                    arguments.add(new SingleArg(Integer.parseInt(args[1]), 'a'));
+                    if(Integer.parseInt(args[1]) > 243) {
+                        System.err.println("Za duży numer artykułu.");
+                        System.exit(1);
+                    }
+                    option = Type.article;
+                    arguments.add(new SingleArg(Integer.parseInt(args[1]), option));
                 }
             }
             else if (Character.isLetter(args[i].charAt(0))) {
-                arguments.add(new SingleArg(roman(args[i]), 'c'));
+                option = Type.chapter;
+                arguments.add(new SingleArg(roman(args[i]), option));
             }
             else {
-                System.err.println("Niepoprawny argument");
+                System.err.println("Niepoprawny argument.");
                 System.exit(1);
             }
         }
-
     }
-
-
 
     public List<SingleArg> getArg() {
         return arguments;
     }
 
     public String getFilePath() {
-        return FilePath;
+        return filePath;
     }
 
     private int roman(String rom) {
@@ -67,21 +81,21 @@ public class Arguments {
             case "XI": return 11;
             case "XII": return 12;
             case "XIII": return 13;
-            default: throw new IllegalArgumentException("Niepoprawny argument");
+            default: throw new IllegalArgumentException("Niepoprawny argument.");
         }
     }
 
     protected class SingleArg {
         protected int nr1;
         protected int nr2;
-        protected char type;
+        protected Type type;
 
-        public SingleArg(int nr1, char type) {
+        public SingleArg(int nr1, Type type) {
             this.nr1 = nr1;
             this.type = type;
         }
 
-        public SingleArg(int nr1, int nr2, char type) {
+        public SingleArg(int nr1, int nr2, Type type) {
             this.nr1 = nr1;
             this.nr2 = nr2;
             this.type = type;
@@ -95,7 +109,7 @@ public class Arguments {
             return nr2;
         }
 
-        public char getType() {
+        public Type getType() {
             return type;
         }
     }

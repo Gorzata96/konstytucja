@@ -1,4 +1,4 @@
-package Constitution;
+package constitution;
 
 /**
  * Created by Gosia on 2016-12-05.

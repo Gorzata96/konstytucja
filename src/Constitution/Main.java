@@ -1,4 +1,4 @@
-package Constitution;
+package constitution;
 
 /**
  * Created by Gosia on 2016-12-11.
@@ -10,12 +10,12 @@ public class Main {
         constitution.readConstitution(arguments.getFilePath());
         for(Arguments.SingleArg argument : arguments.getArg()) {
             switch(argument.getType()) {
-                case 'a': System.out.print(constitution.returnArt(argument.getNr1()));
+                case article: System.out.print(constitution.returnArt(argument.getNr1()));
                     break;
-                case 'b': System.out.print(constitution.returnChapter(argument.getNr1()));
+                case chapter: System.out.print(constitution.returnChapter(argument.getNr1()));
                     break;
-                case 'r':
-                    for(int i=argument.getNr1(); i<=argument.getNr2(); i++)
+                case range:
+                    for(int i = argument.getNr1(); i <= argument.getNr2(); i++)
                         System.out.print(constitution.returnArt(i));
                     break;
             }
